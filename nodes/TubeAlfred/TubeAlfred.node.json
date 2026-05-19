@@ -1,0 +1,22 @@
+{
+  "node": "n8n-nodes-tubealfred",
+  "nodeVersion": "1.0",
+  "codexVersion": "1.0",
+  "categories": [
+    "Data & Storage",
+    "Marketing",
+    "Analytics"
+  ],
+  "resources": {
+    "credentialDocumentation": [
+      {
+        "url": "https://github.com/tubealfred/n8n-nodes-tubealfred#credentials"
+      }
+    ],
+    "primaryDocumentation": [
+      {
+        "url": "https://github.com/tubealfred/n8n-nodes-tubealfred#readme"
+      }
+    ]
+  }
+}

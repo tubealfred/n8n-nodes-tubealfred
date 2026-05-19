@@ -1,0 +1,46 @@
+{
+  "name": "n8n-nodes-tubealfred",
+  "version": "0.1.0",
+  "description": "n8n community node for TubeAlfred YouTube API workflows.",
+  "license": "MIT",
+  "homepage": "https://github.com/tubealfred/n8n-nodes-tubealfred#readme",
+  "keywords": [
+    "n8n-community-node-package",
+    "n8n",
+    "tubealfred",
+    "youtube",
+    "youtube-api",
+    "automation"
+  ],
+  "author": { "name": "TubeAlfred" },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tubealfred/n8n-nodes-tubealfred.git"
+  },
+  "scripts": {
+    "build": "n8n-node build",
+    "build:watch": "tsc --watch",
+    "dev": "n8n-node dev",
+    "lint": "n8n-node lint",
+    "lint:fix": "n8n-node lint --fix",
+    "release": "n8n-node release",
+    "prepublishOnly": "npm run lint && npm run build && npm test",
+    "test": "node tests/metadata.test.mjs",
+    "pack:dry-run": "npm pack --dry-run"
+  },
+  "files": ["dist", "README.md", "LICENSE"],
+  "n8n": {
+    "n8nNodesApiVersion": 1,
+    "strict": true,
+    "credentials": ["dist/credentials/TubeAlfredApi.credentials.js"],
+    "nodes": ["dist/nodes/TubeAlfred/TubeAlfred.node.js"]
+  },
+  "devDependencies": {
+    "@n8n/node-cli": "0.31.0",
+    "eslint": "9.39.4",
+    "prettier": "3.8.3",
+    "release-it": "20.0.1",
+    "typescript": "5.9.3"
+  },
+  "peerDependencies": { "n8n-workflow": "*" }
+}
