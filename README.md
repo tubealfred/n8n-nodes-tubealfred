@@ -88,3 +88,5 @@ npm run dev
 ## Publishing
 
 n8n community nodes are npm packages. This package includes a GitHub Actions publish workflow that uses npm provenance, which n8n requires for verified node submissions after May 1, 2026.
+
+Configure npm Trusted Publishing for `tubealfred/n8n-nodes-tubealfred`, then create a GitHub release. The release workflow runs lint, build, tests, and publishes `n8n-nodes-tubealfred` to npm with provenance.
