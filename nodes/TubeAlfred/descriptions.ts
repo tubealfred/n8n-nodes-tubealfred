@@ -361,6 +361,128 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		},
 	},
 	{
+		displayName: 'Upload Date',
+		name: 'uploadDate',
+		type: 'options',
+		default: '',
+		description: 'Filter results by upload date',
+		options: [
+			{ name: 'All', value: 'all' },
+			{ name: 'Any', value: '' },
+			{ name: 'This Month', value: 'month' },
+			{ name: 'This Week', value: 'week' },
+			{ name: 'This Year', value: 'year' },
+			{ name: 'Today', value: 'today' },
+		],
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search'],
+			},
+		},
+	},
+	{
+		displayName: 'Duration',
+		name: 'duration',
+		type: 'options',
+		default: '',
+		description: 'Filter results by video duration',
+		options: [
+			{ name: '3 to 20 Minutes', value: 'three_to_twenty_mins' },
+			{ name: 'All', value: 'all' },
+			{ name: 'Any', value: '' },
+			{ name: 'Over 20 Minutes', value: 'over_twenty_mins' },
+			{ name: 'Under 3 Minutes', value: 'under_three_mins' },
+		],
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search'],
+			},
+		},
+	},
+	{
+		displayName: 'Sort By',
+		name: 'sort',
+		type: 'options',
+		default: '',
+		description: 'Search ranking preference',
+		options: [
+			{ name: 'Default (Relevance)', value: '' },
+			{ name: 'Relevance', value: 'relevance' },
+			{ name: 'Popularity', value: 'popularity' },
+		],
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search'],
+			},
+		},
+	},
+	{
+		displayName: 'Result Type',
+		name: 'resultType',
+		type: 'options',
+		default: '',
+		description: 'Restrict the type of results returned',
+		options: [
+			{ name: 'All', value: 'all' },
+			{ name: 'Any', value: '' },
+			{ name: 'Channel', value: 'channel' },
+			{ name: 'Movie', value: 'movie' },
+			{ name: 'Playlist', value: 'playlist' },
+			{ name: 'Shorts', value: 'shorts' },
+			{ name: 'Video', value: 'video' },
+		],
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search'],
+			},
+		},
+	},
+	{
+		displayName: 'Features',
+		name: 'features',
+		type: 'string',
+		default: '',
+		placeholder: 'hd,subtitles',
+		description:
+			'Comma-separated feature filters: hd, subtitles, creative_commons, 3d, live, purchased, 4k, 360, location, hdr, vr180',
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search'],
+			},
+		},
+	},
+	{
+		displayName: 'Live Only',
+		name: 'live',
+		type: 'boolean',
+		default: false,
+		description: 'Whether to only return live streams (shortcut for features=live)',
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search'],
+			},
+		},
+	},
+	{
+		displayName: 'Shorts Only',
+		name: 'shorts',
+		type: 'boolean',
+		default: false,
+		description: 'Whether to only return Shorts (shortcut for type=shorts)',
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search'],
+			},
+		},
+	},
+	{
 		displayName: 'Hashtag',
 		name: 'hashtag',
 		type: 'string',

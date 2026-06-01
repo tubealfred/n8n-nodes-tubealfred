@@ -186,6 +186,13 @@ function searchRequest(
 			path: '/v1/youtube/search/',
 			query: compactRecord({
 				query: requiredString.call(this, 'query', itemIndex),
+				upload_date: optionalString.call(this, 'uploadDate', itemIndex),
+				duration: optionalString.call(this, 'duration', itemIndex),
+				sort: optionalString.call(this, 'sort', itemIndex),
+				type: optionalString.call(this, 'resultType', itemIndex),
+				features: optionalString.call(this, 'features', itemIndex),
+				live: optionalBoolean.call(this, 'live', itemIndex),
+				shorts: optionalBoolean.call(this, 'shorts', itemIndex),
 				continuation_token: optionalString.call(this, 'pageCursor', itemIndex),
 			}),
 		};
@@ -254,6 +261,12 @@ function optionalString(this: IExecuteFunctions, name: string, itemIndex: number
 	const trimmed = value.trim();
 
 	return trimmed || undefined;
+}
+
+function optionalBoolean(this: IExecuteFunctions, name: string, itemIndex: number): boolean | undefined {
+	const value = this.getNodeParameter(name, itemIndex, false) as boolean;
+
+	return value === true ? true : undefined;
 }
 
 function optionalCount(this: IExecuteFunctions, itemIndex: number): number | undefined {
