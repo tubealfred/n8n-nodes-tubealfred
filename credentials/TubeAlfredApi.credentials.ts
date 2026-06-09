@@ -23,7 +23,7 @@ export class TubeAlfredApi implements ICredentialType {
 			},
 			default: '',
 			required: true,
-			description: 'TubeAlfred API key with the youtube.read scope. Create one at https://tubealfred.com/app/api-keys.',
+			description: 'TubeAlfred API key. Use youtube.read for YouTube operations and billing.read for billing usage.',
 		},
 	];
 

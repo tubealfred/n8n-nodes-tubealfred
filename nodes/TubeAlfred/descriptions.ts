@@ -2,7 +2,25 @@ import type { INodeProperties } from 'n8n-workflow';
 
 const commentPaginationOperations = ['getPage'];
 const replyPaginationOperations = ['getPage'];
-const optionalPaginationResources = ['channel', 'search', 'playlist'];
+const transcriptOperations = ['getTranscript', 'getTranscriptFull'];
+const videoOptionalPaginationOperations = ['getRelated'];
+const videoRequiredPaginationOperations = ['getRelatedPage'];
+const channelOptionalPaginationOperations = [
+	'getCommunityPosts',
+	'getPlaylists',
+	'getShorts',
+	'getStreams',
+	'getVideos',
+];
+const channelRequiredPaginationOperations = [
+	'getCommunityPostsPage',
+	'getPlaylistsPage',
+	'getShortsPage',
+	'getStreamsPage',
+	'getVideosPage',
+];
+const searchOptionalPaginationOperations = ['search', 'searchHashtag'];
+const searchRequiredPaginationOperations = ['searchPage', 'searchHashtagPage'];
 
 export const tubeAlfredProperties: INodeProperties[] = [
 	{
@@ -11,6 +29,14 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		type: 'options',
 		noDataExpression: true,
 		options: [
+			{
+				name: 'Batch',
+				value: 'batch',
+			},
+			{
+				name: 'Billing',
+				value: 'billing',
+			},
 			{
 				name: 'Channel',
 				value: 'channel',
@@ -32,6 +58,10 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				value: 'search',
 			},
 			{
+				name: 'Trend',
+				value: 'trend',
+			},
+			{
 				name: 'URL',
 				value: 'url',
 			},
@@ -41,6 +71,26 @@ export const tubeAlfredProperties: INodeProperties[] = [
 			},
 		],
 		default: 'video',
+	},
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		noDataExpression: true,
+		displayOptions: {
+			show: {
+				resource: ['billing'],
+			},
+		},
+		options: [
+			{
+				name: 'Get Usage',
+				value: 'getUsage',
+				description: 'Get credit balance and billing usage',
+				action: 'Get billing usage',
+			},
+		],
+		default: 'getUsage',
 	},
 	{
 		displayName: 'Operation',
@@ -60,10 +110,34 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				action: 'Get video details',
 			},
 			{
+				name: 'Get Enhanced',
+				value: 'getEnhanced',
+				description: 'Get enhanced video details',
+				action: 'Get enhanced video details',
+			},
+			{
+				name: 'Get Related',
+				value: 'getRelated',
+				description: 'Get related videos',
+				action: 'Get related videos',
+			},
+			{
+				name: 'Get Related Page',
+				value: 'getRelatedPage',
+				description: 'Get related videos page from a continuation token',
+				action: 'Get related videos page',
+			},
+			{
 				name: 'Get Transcript',
 				value: 'getTranscript',
 				description: 'Get video transcript',
 				action: 'Get video transcript',
+			},
+			{
+				name: 'Get Transcript Full',
+				value: 'getTranscriptFull',
+				description: 'Get full video transcript',
+				action: 'Get full video transcript',
 			},
 		],
 		default: 'get',
@@ -150,22 +224,58 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				action: 'Get channel community posts',
 			},
 			{
+				name: 'Get Community Posts Page',
+				value: 'getCommunityPostsPage',
+				description: 'Get channel community posts page from a continuation token',
+				action: 'Get channel community posts page',
+			},
+			{
 				name: 'Get Playlists',
 				value: 'getPlaylists',
 				description: 'Get channel playlists',
 				action: 'Get channel playlists',
 			},
 			{
+				name: 'Get Playlists Page',
+				value: 'getPlaylistsPage',
+				description: 'Get channel playlists page from a continuation token',
+				action: 'Get channel playlists page',
+			},
+			{
 				name: 'Get Shorts',
 				value: 'getShorts',
 				description: 'Get channel Shorts',
-					action: 'Get channel shorts',
+				action: 'Get channel shorts',
+			},
+			{
+				name: 'Get Shorts Page',
+				value: 'getShortsPage',
+				description: 'Get channel Shorts page from a continuation token',
+				action: 'Get channel shorts page',
+			},
+			{
+				name: 'Get Streams',
+				value: 'getStreams',
+				description: 'Get channel streams',
+				action: 'Get channel streams',
+			},
+			{
+				name: 'Get Streams Page',
+				value: 'getStreamsPage',
+				description: 'Get channel streams page from a continuation token',
+				action: 'Get channel streams page',
 			},
 			{
 				name: 'Get Videos',
 				value: 'getVideos',
 				description: 'Get channel videos',
 				action: 'Get channel videos',
+			},
+			{
+				name: 'Get Videos Page',
+				value: 'getVideosPage',
+				description: 'Get channel videos page from a continuation token',
+				action: 'Get channel videos page',
 			},
 		],
 		default: 'get',
@@ -191,13 +301,25 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				name: 'Search',
 				value: 'search',
 				description: 'Search YouTube',
-					action: 'Search youtube',
+				action: 'Search youtube',
+			},
+			{
+				name: 'Search Page',
+				value: 'searchPage',
+				description: 'Search YouTube page from a continuation token',
+				action: 'Search youtube page',
 			},
 			{
 				name: 'Search Hashtag',
 				value: 'searchHashtag',
 				description: 'Search YouTube by hashtag',
-					action: 'Search youtube hashtag',
+				action: 'Search youtube hashtag',
+			},
+			{
+				name: 'Search Hashtag Page',
+				value: 'searchHashtagPage',
+				description: 'Search YouTube hashtag page from a continuation token',
+				action: 'Search youtube hashtag page',
 			},
 		],
 		default: 'search',
@@ -219,6 +341,18 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				description: 'Get playlist contents',
 				action: 'Get playlist contents',
 			},
+			{
+				name: 'Get Metadata',
+				value: 'getMetadata',
+				description: 'Get playlist metadata',
+				action: 'Get playlist metadata',
+			},
+			{
+				name: 'Get Page',
+				value: 'getPage',
+				description: 'Get playlist page from a continuation token',
+				action: 'Get playlist page',
+			},
 		],
 		default: 'get',
 	},
@@ -237,10 +371,62 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				name: 'Resolve',
 				value: 'resolve',
 				description: 'Resolve a YouTube URL to canonical identifiers',
-					action: 'Resolve youtube url',
+				action: 'Resolve youtube url',
 			},
 		],
 		default: 'resolve',
+	},
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		noDataExpression: true,
+		displayOptions: {
+			show: {
+				resource: ['batch'],
+			},
+		},
+		options: [
+			{
+				name: 'Get Channels',
+				value: 'getChannels',
+				description: 'Get details for multiple channels',
+				action: 'Get channels batch',
+			},
+			{
+				name: 'Get Videos',
+				value: 'getVideos',
+				description: 'Get details for multiple videos',
+				action: 'Get videos batch',
+			},
+		],
+		default: 'getVideos',
+	},
+	{
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		noDataExpression: true,
+		displayOptions: {
+			show: {
+				resource: ['trend'],
+			},
+		},
+		options: [
+			{
+				name: 'Get Shorts',
+				value: 'getShorts',
+				description: 'Get trending Shorts',
+				action: 'Get trending shorts',
+			},
+			{
+				name: 'Get Videos',
+				value: 'getVideos',
+				description: 'Get trending videos',
+				action: 'Get trending videos',
+			},
+		],
+		default: 'getVideos',
 	},
 	{
 		displayName: 'Video ID',
@@ -276,11 +462,103 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		description: 'Number of items to fetch per page',
 		typeOptions: {
 			minValue: 1,
-			maxValue: 500,
+			maxValue: 100,
 		},
 		displayOptions: {
 			show: {
 				resource: ['comment', 'reply'],
+			},
+		},
+	},
+	{
+		displayName: 'Comment Sort',
+		name: 'commentSort',
+		type: 'options',
+		default: '',
+		description: 'Comment sort order',
+		options: [
+			{ name: 'Default (Top)', value: '' },
+			{ name: 'Newest', value: 'newest' },
+			{ name: 'Top', value: 'top' },
+		],
+		displayOptions: {
+			show: {
+				resource: ['comment', 'reply'],
+				operation: ['getMany'],
+			},
+		},
+	},
+	{
+		displayName: 'Transcript Language',
+		name: 'transcriptLanguage',
+		type: 'string',
+		default: '',
+		placeholder: 'en',
+		description: 'Preferred caption language code, for example en, es, or en-US',
+		displayOptions: {
+			show: {
+				resource: ['video'],
+				operation: transcriptOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Transcript Kind',
+		name: 'transcriptKind',
+		type: 'options',
+		default: '',
+		description: 'Caption track kind preference',
+		options: [
+			{ name: 'Any', value: '' },
+			{ name: 'Auto', value: 'auto' },
+			{ name: 'Manual', value: 'manual' },
+		],
+		displayOptions: {
+			show: {
+				resource: ['video'],
+				operation: transcriptOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Fields',
+		name: 'fields',
+		type: 'string',
+		default: '',
+		placeholder: 'id,title,view_count',
+		description: 'Comma-separated response fields to include',
+		displayOptions: {
+			show: {
+				resource: ['video'],
+				operation: ['get', 'getEnhanced'],
+			},
+		},
+	},
+	{
+		displayName: 'Fields',
+		name: 'fields',
+		type: 'string',
+		default: '',
+		placeholder: 'id,title,subscriber_count',
+		description: 'Comma-separated response fields to include',
+		displayOptions: {
+			show: {
+				resource: ['channel'],
+				operation: ['get', 'getAbout'],
+			},
+		},
+	},
+	{
+		displayName: 'Fields',
+		name: 'fields',
+		type: 'string',
+		default: '',
+		placeholder: 'id,title',
+		description: 'Comma-separated response fields to include',
+		displayOptions: {
+			show: {
+				resource: ['batch'],
+				operation: ['getChannels', 'getVideos'],
 			},
 		},
 	},
@@ -313,6 +591,62 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		},
 	},
 	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'Pagination cursor returned by the previous response',
+		displayOptions: {
+			show: {
+				resource: ['video'],
+				operation: videoRequiredPaginationOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'Pagination cursor returned by the previous response',
+		displayOptions: {
+			show: {
+				resource: ['channel'],
+				operation: channelRequiredPaginationOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'Pagination cursor returned by the previous response',
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: searchRequiredPaginationOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		required: true,
+		default: '',
+		description: 'Pagination cursor returned by the previous response',
+		displayOptions: {
+			show: {
+				resource: ['playlist'],
+				operation: ['getPage'],
+			},
+		},
+	},
+	{
 		displayName: 'Channel ID',
 		name: 'channelId',
 		type: 'string',
@@ -333,16 +667,47 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		description: 'Optional pagination cursor from a previous TubeAlfred response',
 		displayOptions: {
 			show: {
-				resource: optionalPaginationResources,
-				operation: [
-					'getCommunityPosts',
-					'getPlaylists',
-					'getShorts',
-					'getVideos',
-					'get',
-					'search',
-					'searchHashtag',
-				],
+				resource: ['video'],
+				operation: videoOptionalPaginationOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		default: '',
+		description: 'Optional pagination cursor from a previous TubeAlfred response',
+		displayOptions: {
+			show: {
+				resource: ['channel'],
+				operation: channelOptionalPaginationOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		default: '',
+		description: 'Optional pagination cursor from a previous TubeAlfred response',
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: searchOptionalPaginationOperations,
+			},
+		},
+	},
+	{
+		displayName: 'Page Cursor',
+		name: 'pageCursor',
+		type: 'string',
+		default: '',
+		description: 'Optional pagination cursor from a previous TubeAlfred response',
+		displayOptions: {
+			show: {
+				resource: ['playlist'],
+				operation: ['get'],
 			},
 		},
 	},
@@ -356,7 +721,20 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
+			},
+		},
+	},
+	{
+		displayName: 'Channel ID',
+		name: 'searchChannelId',
+		type: 'string',
+		default: '',
+		description: 'Restrict search results to a single channel ID, handle, or username',
+		displayOptions: {
+			show: {
+				resource: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -377,7 +755,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -397,7 +775,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -415,7 +793,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -437,7 +815,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -452,7 +830,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -465,7 +843,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -478,7 +856,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['search'],
+				operation: ['search', 'searchPage'],
 			},
 		},
 	},
@@ -492,7 +870,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['search'],
-				operation: ['searchHashtag'],
+				operation: ['searchHashtag', 'searchHashtagPage'],
 			},
 		},
 	},
@@ -533,6 +911,21 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		displayOptions: {
 			show: {
 				resource: ['playlist'],
+			},
+		},
+	},
+	{
+		displayName: 'IDs',
+		name: 'ids',
+		type: 'string',
+		required: true,
+		default: '',
+		placeholder: 'dQw4w9WgXcQ,9bZkp7q19f0',
+		description: 'Comma-separated or newline-separated YouTube IDs',
+		displayOptions: {
+			show: {
+				resource: ['batch'],
+				operation: ['getChannels', 'getVideos'],
 			},
 		},
 	},

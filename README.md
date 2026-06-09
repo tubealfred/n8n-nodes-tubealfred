@@ -1,12 +1,12 @@
 # n8n-nodes-tubealfred
 
-Community node for using the TubeAlfred YouTube API inside n8n workflows and AI Agent tools.
+Community node for using the TubeAlfred YouTube API and billing usage lookup inside n8n workflows and AI Agent tools.
 
 ## Requirements
 
 - n8n with community nodes enabled.
 - A TubeAlfred account.
-- A TubeAlfred API key with the `youtube.read` scope.
+- A TubeAlfred API key with `youtube.read` for YouTube operations and `billing.read` for billing usage.
 
 Create an API key in TubeAlfred:
 
@@ -14,7 +14,7 @@ Create an API key in TubeAlfred:
 https://tubealfred.com/app/api-keys
 ```
 
-Choose **Create key**, select the `youtube.read` scope, then copy the key immediately. TubeAlfred only shows the full key once.
+Choose **Create key**, select the scopes you need, then copy the key immediately. TubeAlfred only shows the full key once.
 
 ## Install
 
@@ -49,6 +49,7 @@ Authorization: Bearer YOUR_TUBEALFRED_API_KEY
 
 The TubeAlfred node supports:
 
+- Billing: get credit balance and billing usage.
 - Video: get details, get transcript.
 - Comment: get first page, get paginated page.
 - Reply: get first page, get paginated page.
