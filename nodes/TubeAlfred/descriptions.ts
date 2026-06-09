@@ -304,12 +304,6 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				action: 'Search youtube',
 			},
 			{
-				name: 'Search Page',
-				value: 'searchPage',
-				description: 'Search YouTube page from a continuation token',
-				action: 'Search youtube page',
-			},
-			{
 				name: 'Search Hashtag',
 				value: 'searchHashtag',
 				description: 'Search YouTube by hashtag',
@@ -320,6 +314,12 @@ export const tubeAlfredProperties: INodeProperties[] = [
 				value: 'searchHashtagPage',
 				description: 'Search YouTube hashtag page from a continuation token',
 				action: 'Search youtube hashtag page',
+			},
+			{
+				name: 'Search Page',
+				value: 'searchPage',
+				description: 'Search YouTube page from a continuation token',
+				action: 'Search youtube page',
 			},
 		],
 		default: 'search',
@@ -525,7 +525,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		name: 'fields',
 		type: 'string',
 		default: '',
-		placeholder: 'id,title,view_count',
+		placeholder: 'ID,title,view_count',
 		description: 'Comma-separated response fields to include',
 		displayOptions: {
 			show: {
@@ -539,7 +539,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		name: 'fields',
 		type: 'string',
 		default: '',
-		placeholder: 'id,title,subscriber_count',
+		placeholder: 'ID,title,subscriber_count',
 		description: 'Comma-separated response fields to include',
 		displayOptions: {
 			show: {
@@ -553,7 +553,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		name: 'fields',
 		type: 'string',
 		default: '',
-		placeholder: 'id,title',
+		placeholder: 'ID,title',
 		description: 'Comma-separated response fields to include',
 		displayOptions: {
 			show: {

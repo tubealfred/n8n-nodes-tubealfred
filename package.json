@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-tubealfred",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "n8n community node for TubeAlfred YouTube API and billing usage workflows.",
   "license": "MIT",
   "homepage": "https://github.com/tubealfred/n8n-nodes-tubealfred#readme",

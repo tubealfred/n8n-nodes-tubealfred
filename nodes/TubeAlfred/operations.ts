@@ -41,7 +41,7 @@ export function getTubeAlfredRequest(
 	}
 
 	if (resource === 'trend') {
-		return trendRequest.call(this, operation, itemIndex);
+		return trendRequest.call(this, operation);
 	}
 
 	if (resource === 'url') {
@@ -392,11 +392,7 @@ function batchRequest(
 	throw unsupported.call(this, 'batch', operation);
 }
 
-function trendRequest(
-	this: IExecuteFunctions,
-	operation: string,
-	_itemIndex: number,
-): TubeAlfredRequestSpec {
+function trendRequest(this: IExecuteFunctions, operation: string): TubeAlfredRequestSpec {
 	const pathByOperation: Record<string, string> = {
 		getShorts: '/v1/youtube/trending/shorts',
 		getVideos: '/v1/youtube/trending',
