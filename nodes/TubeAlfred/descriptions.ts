@@ -1,5 +1,7 @@
 import type { INodeProperties } from 'n8n-workflow';
 
+import { OPERATIONS } from './generated/operations';
+
 const commentPaginationOperations = ['getPage'];
 const replyPaginationOperations = ['getPage'];
 const transcriptOperations = ['getTranscript', 'getTranscriptFull'];
@@ -21,6 +23,62 @@ const channelRequiredPaginationOperations = [
 ];
 const searchOptionalPaginationOperations = ['search', 'searchHashtag'];
 const searchRequiredPaginationOperations = ['searchPage', 'searchHashtagPage'];
+
+const operationDefaults: Record<string, string> = {
+	batch: 'getVideos',
+	billing: 'getUsage',
+	channel: 'get',
+	comment: 'getMany',
+	playlist: 'get',
+	reply: 'getMany',
+	search: 'search',
+	trend: 'getVideos',
+	url: 'resolve',
+	video: 'get',
+};
+const generatedOperationProperties: INodeProperties[] = [
+	{
+		resource: 'billing',
+		operation: 'getUsage',
+		name: 'Get Usage',
+		description: 'Get credit balance and billing usage',
+	},
+	...OPERATIONS,
+].reduce<INodeProperties[]>((properties, definition) => {
+	const resource = 'resource' in definition ? definition.resource : '';
+	const operation = 'operation' in definition ? definition.operation : '';
+	const description = definition.description;
+	const existing = properties.find(
+		(property) => property.displayOptions?.show?.resource?.[0] === resource,
+	);
+	const option = {
+		name: definition.name,
+		value: operation,
+		description,
+		action: description,
+	};
+
+	if (existing && Array.isArray(existing.options)) {
+		existing.options.push(option);
+		return properties;
+	}
+
+	properties.push({
+		displayName: 'Operation',
+		name: 'operation',
+		type: 'options',
+		default: '',
+		noDataExpression: true,
+		displayOptions: { show: { resource: [resource] } },
+		options: [option],
+	});
+	return properties;
+}, []);
+
+for (const property of generatedOperationProperties) {
+	const resource = property.displayOptions?.show?.resource?.[0];
+	property.default = typeof resource === 'string' ? (operationDefaults[resource] ?? '') : '';
+}
 
 export const tubeAlfredProperties: INodeProperties[] = [
 	{
@@ -72,362 +130,7 @@ export const tubeAlfredProperties: INodeProperties[] = [
 		],
 		default: 'video',
 	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['billing'],
-			},
-		},
-		options: [
-			{
-				name: 'Get Usage',
-				value: 'getUsage',
-				description: 'Get credit balance and billing usage',
-				action: 'Get billing usage',
-			},
-		],
-		default: 'getUsage',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['video'],
-			},
-		},
-		options: [
-			{
-				name: 'Get',
-				value: 'get',
-				description: 'Get video details',
-				action: 'Get video details',
-			},
-			{
-				name: 'Get Enhanced',
-				value: 'getEnhanced',
-				description: 'Get enhanced video details',
-				action: 'Get enhanced video details',
-			},
-			{
-				name: 'Get Related',
-				value: 'getRelated',
-				description: 'Get related videos',
-				action: 'Get related videos',
-			},
-			{
-				name: 'Get Related Page',
-				value: 'getRelatedPage',
-				description: 'Get related videos page from a continuation token',
-				action: 'Get related videos page',
-			},
-			{
-				name: 'Get Transcript',
-				value: 'getTranscript',
-				description: 'Get video transcript',
-				action: 'Get video transcript',
-			},
-			{
-				name: 'Get Transcript Full',
-				value: 'getTranscriptFull',
-				description: 'Get full video transcript',
-				action: 'Get full video transcript',
-			},
-		],
-		default: 'get',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['comment'],
-			},
-		},
-		options: [
-			{
-				name: 'Get Many',
-				value: 'getMany',
-				description: 'Get first comments page',
-				action: 'Get many comments',
-			},
-			{
-				name: 'Get Page',
-				value: 'getPage',
-				description: 'Get comments page from a continuation token',
-				action: 'Get comments page',
-			},
-		],
-		default: 'getMany',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['reply'],
-			},
-		},
-		options: [
-			{
-				name: 'Get Many',
-				value: 'getMany',
-				description: 'Get first replies page',
-				action: 'Get many replies',
-			},
-			{
-				name: 'Get Page',
-				value: 'getPage',
-				description: 'Get replies page from a continuation token',
-				action: 'Get replies page',
-			},
-		],
-		default: 'getMany',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['channel'],
-			},
-		},
-		options: [
-			{
-				name: 'Get',
-				value: 'get',
-				description: 'Get channel details',
-				action: 'Get channel details',
-			},
-			{
-				name: 'Get About',
-				value: 'getAbout',
-				description: 'Get channel about section',
-				action: 'Get channel about section',
-			},
-			{
-				name: 'Get Community Posts',
-				value: 'getCommunityPosts',
-				description: 'Get channel community posts',
-				action: 'Get channel community posts',
-			},
-			{
-				name: 'Get Community Posts Page',
-				value: 'getCommunityPostsPage',
-				description: 'Get channel community posts page from a continuation token',
-				action: 'Get channel community posts page',
-			},
-			{
-				name: 'Get Playlists',
-				value: 'getPlaylists',
-				description: 'Get channel playlists',
-				action: 'Get channel playlists',
-			},
-			{
-				name: 'Get Playlists Page',
-				value: 'getPlaylistsPage',
-				description: 'Get channel playlists page from a continuation token',
-				action: 'Get channel playlists page',
-			},
-			{
-				name: 'Get Shorts',
-				value: 'getShorts',
-				description: 'Get channel Shorts',
-				action: 'Get channel shorts',
-			},
-			{
-				name: 'Get Shorts Page',
-				value: 'getShortsPage',
-				description: 'Get channel Shorts page from a continuation token',
-				action: 'Get channel shorts page',
-			},
-			{
-				name: 'Get Streams',
-				value: 'getStreams',
-				description: 'Get channel streams',
-				action: 'Get channel streams',
-			},
-			{
-				name: 'Get Streams Page',
-				value: 'getStreamsPage',
-				description: 'Get channel streams page from a continuation token',
-				action: 'Get channel streams page',
-			},
-			{
-				name: 'Get Videos',
-				value: 'getVideos',
-				description: 'Get channel videos',
-				action: 'Get channel videos',
-			},
-			{
-				name: 'Get Videos Page',
-				value: 'getVideosPage',
-				description: 'Get channel videos page from a continuation token',
-				action: 'Get channel videos page',
-			},
-		],
-		default: 'get',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['search'],
-			},
-		},
-		options: [
-			{
-				name: 'Get Suggestions',
-				value: 'getSuggestions',
-				description: 'Get YouTube search autocomplete suggestions',
-				action: 'Get search suggestions',
-			},
-			{
-				name: 'Search',
-				value: 'search',
-				description: 'Search YouTube',
-				action: 'Search youtube',
-			},
-			{
-				name: 'Search Hashtag',
-				value: 'searchHashtag',
-				description: 'Search YouTube by hashtag',
-				action: 'Search youtube hashtag',
-			},
-			{
-				name: 'Search Hashtag Page',
-				value: 'searchHashtagPage',
-				description: 'Search YouTube hashtag page from a continuation token',
-				action: 'Search youtube hashtag page',
-			},
-			{
-				name: 'Search Page',
-				value: 'searchPage',
-				description: 'Search YouTube page from a continuation token',
-				action: 'Search youtube page',
-			},
-		],
-		default: 'search',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['playlist'],
-			},
-		},
-		options: [
-			{
-				name: 'Get',
-				value: 'get',
-				description: 'Get playlist contents',
-				action: 'Get playlist contents',
-			},
-			{
-				name: 'Get Metadata',
-				value: 'getMetadata',
-				description: 'Get playlist metadata',
-				action: 'Get playlist metadata',
-			},
-			{
-				name: 'Get Page',
-				value: 'getPage',
-				description: 'Get playlist page from a continuation token',
-				action: 'Get playlist page',
-			},
-		],
-		default: 'get',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['url'],
-			},
-		},
-		options: [
-			{
-				name: 'Resolve',
-				value: 'resolve',
-				description: 'Resolve a YouTube URL to canonical identifiers',
-				action: 'Resolve youtube url',
-			},
-		],
-		default: 'resolve',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['batch'],
-			},
-		},
-		options: [
-			{
-				name: 'Get Channels',
-				value: 'getChannels',
-				description: 'Get details for multiple channels',
-				action: 'Get channels batch',
-			},
-			{
-				name: 'Get Videos',
-				value: 'getVideos',
-				description: 'Get details for multiple videos',
-				action: 'Get videos batch',
-			},
-		],
-		default: 'getVideos',
-	},
-	{
-		displayName: 'Operation',
-		name: 'operation',
-		type: 'options',
-		noDataExpression: true,
-		displayOptions: {
-			show: {
-				resource: ['trend'],
-			},
-		},
-		options: [
-			{
-				name: 'Get Shorts',
-				value: 'getShorts',
-				description: 'Get trending Shorts',
-				action: 'Get trending shorts',
-			},
-			{
-				name: 'Get Videos',
-				value: 'getVideos',
-				description: 'Get trending videos',
-				action: 'Get trending videos',
-			},
-		],
-		default: 'getVideos',
-	},
+	...generatedOperationProperties,
 	{
 		displayName: 'Video ID',
 		name: 'videoId',

@@ -18,7 +18,9 @@
     "url": "https://github.com/tubealfred/n8n-nodes-tubealfred.git"
   },
   "scripts": {
-    "build": "n8n-node build",
+    "build": "npm run contract:check && n8n-node build",
+    "contract:sync": "node scripts/sync-contract.mjs",
+    "contract:check": "node scripts/sync-contract.mjs --check --source contracts/tubealfred-youtube-operations.v1.json",
     "build:watch": "tsc --watch",
     "dev": "n8n-node dev",
     "lint": "n8n-node lint",

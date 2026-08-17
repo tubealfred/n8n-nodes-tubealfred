@@ -80,6 +80,8 @@ npm run build
 npm test
 ```
 
+Operation selectors, schemas, routes, and request mapping are generated from the versioned TubeAlfred contract. Use `npm run contract:sync` to refresh it; builds run `npm run contract:check` to reject drift.
+
 For local n8n testing:
 
 ```bash
