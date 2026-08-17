@@ -5,6 +5,7 @@ const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.me
 const nodeSource = readFileSync(new URL('../nodes/TubeAlfred/TubeAlfred.node.ts', import.meta.url), 'utf8');
 const descriptionsSource = readFileSync(new URL('../nodes/TubeAlfred/descriptions.ts', import.meta.url), 'utf8');
 const operationsSource = readFileSync(new URL('../nodes/TubeAlfred/operations.ts', import.meta.url), 'utf8');
+const genericFunctionsSource = readFileSync(new URL('../nodes/TubeAlfred/GenericFunctions.ts', import.meta.url), 'utf8');
 
 assert.equal(packageJson.name, 'n8n-nodes-tubealfred');
 assert.ok(packageJson.keywords.includes('n8n-community-node-package'));
@@ -62,3 +63,4 @@ for (const path of [
 }
 
 assert.match(descriptionsSource, /maxValue:\s*100/);
+assert.match(genericFunctionsSource, /timeout:\s*35_000/);

@@ -29,6 +29,7 @@ export async function tubeAlfredApiRequest(
 			'User-Agent': `n8n-nodes-tubealfred/${PACKAGE_VERSION}`,
 		},
 		json: true,
+		timeout: 35_000,
 	};
 
 	if (spec.query !== undefined) {
