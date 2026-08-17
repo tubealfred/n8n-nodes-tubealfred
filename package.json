@@ -1,6 +1,6 @@
 {
   "name": "n8n-nodes-tubealfred",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "n8n community node for TubeAlfred YouTube API and billing usage workflows.",
   "license": "MIT",
   "homepage": "https://github.com/tubealfred/n8n-nodes-tubealfred#readme",
@@ -12,7 +12,9 @@
     "youtube-api",
     "automation"
   ],
-  "author": { "name": "TubeAlfred" },
+  "author": {
+    "name": "TubeAlfred"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/tubealfred/n8n-nodes-tubealfred.git"
@@ -30,12 +32,20 @@
     "test": "node tests/metadata.test.mjs",
     "pack:dry-run": "npm pack --dry-run"
   },
-  "files": ["dist", "README.md", "LICENSE"],
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
   "n8n": {
     "n8nNodesApiVersion": 1,
     "strict": true,
-    "credentials": ["dist/credentials/TubeAlfredApi.credentials.js"],
-    "nodes": ["dist/nodes/TubeAlfred/TubeAlfred.node.js"]
+    "credentials": [
+      "dist/credentials/TubeAlfredApi.credentials.js"
+    ],
+    "nodes": [
+      "dist/nodes/TubeAlfred/TubeAlfred.node.js"
+    ]
   },
   "devDependencies": {
     "@n8n/node-cli": "0.31.0",
@@ -44,5 +54,7 @@
     "release-it": "20.0.1",
     "typescript": "5.9.3"
   },
-  "peerDependencies": { "n8n-workflow": "*" }
+  "peerDependencies": {
+    "n8n-workflow": "*"
+  }
 }
