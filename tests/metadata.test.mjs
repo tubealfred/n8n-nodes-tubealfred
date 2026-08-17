@@ -18,7 +18,7 @@ assert.ok(packageJson.keywords.includes('n8n-community-node-package'));
 assert.deepEqual(packageJson.n8n.credentials, ['dist/credentials/TubeAlfredApi.credentials.js']);
 assert.deepEqual(packageJson.n8n.nodes, ['dist/nodes/TubeAlfred/TubeAlfred.node.js']);
 assert.match(nodeSource, /usableAsTool:\s*true/);
-assert.equal(contract.manifest_version, '1.0.0');
+assert.equal(contract.manifest_version, '1.1.0');
 assert.equal(contract.operation_count, 35);
 
 for (const operation of contract.operations) {
