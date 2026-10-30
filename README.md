@@ -2,6 +2,10 @@
 
 Community node for using the TubeAlfred YouTube API and billing usage lookup inside n8n workflows and AI Agent tools.
 
+## Credits
+
+Free accounts start with 50 credits. The free allowance resets to 50 each month on your signup anniversary; unused free credits do not roll over. Resets affect only the free allowance. No credit card required. See the [current pricing and credits](https://tubealfred.com/pricing.md) for plan and usage details.
+
 ## Requirements
 
 - n8n with community nodes enabled.
